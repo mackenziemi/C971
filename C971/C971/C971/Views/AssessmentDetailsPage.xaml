@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="C971.Views.AssessmentDetailsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:local="clr-namespace:C971.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Assessment Details" FontSize="Title" HorizontalTextAlignment="Center" Margin="10,20,10,30"/>
+            <Label Text="Assessment Name" FontSize="Small" Margin="10, 0,0,0" />
+            <Entry Placeholder="Enter assessment name" Text="{Binding AssessmentName, Mode=TwoWay}"  Margin="0,10,0,20"/>
+            <Label Text="Assessment Type" FontSize="Small" Margin="10, 0,0,0" />
+            <Picker Title="Select assessment type" ItemsSource="{Binding AssessmentTypes}" SelectedItem="{Binding AssessmentType, Mode=TwoWay}" Margin="0,10,0,20" />
+            
+            <Label Text="Start Date" FontSize="Small" Margin="10, 0,0,0" />
+            <DatePicker Date="{Binding StartDate, Mode=TwoWay}" 
+                        MinimumDate="2022-01-01"
+                        MaximumDate="2032-12-31"
+                        Margin="0,10,0,20"/>
+            <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
+            <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+            
+            <Label Text="End Date" FontSize="Small" Margin="10, 0,0,0" />
+            <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
+                        MinimumDate="2022-01-01"
+                        MaximumDate="2032-12-31"
+                        Margin="0,10,0,20"/>
+            <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
+            <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
