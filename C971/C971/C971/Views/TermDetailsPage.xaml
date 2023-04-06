@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="C971.Views.TermDetailsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:local="clr-namespace:C971.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label
+                HorizontalOptions="Center"
+                Text="Welcome to Xamarin.Forms!!!"
+                TextColor="Purple"
+                VerticalOptions="Center"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

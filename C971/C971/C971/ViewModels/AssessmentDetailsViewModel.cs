@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C971.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,6 +37,21 @@ namespace C971.ViewModels
                 "Objective Assessment"
             };
             AssessmentType = AssessmentTypes.First();
+        }
+
+        public AssessmentDetailsViewModel(Assessment assessment)
+        {
+            AssessmentName = assessment.AssessmentName;
+            StartDate = assessment.StartDate.Value;
+            NotifyStartDate = assessment.NotifyStartDate;
+            EndDate = assessment.EndDate.Value;
+            NotifyEndDate = assessment.NotifyEndDate;
+            AssessmentTypes = new List<string>
+            {
+                "Performance Assessment",
+                "Objective Assessment"
+            };
+            AssessmentType = assessment.AssessmentType;
         }
     }
 }
