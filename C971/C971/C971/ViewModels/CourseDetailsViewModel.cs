@@ -1,4 +1,5 @@
 ﻿using C971.Models;
+using C971.Services;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace C971.ViewModels
 {
     public class CourseDetailsViewModel : BaseViewModel
     {
+        private IC971DataStore _dataStore;
+        
         public string CourseName { get; set; }
         public DateTime StartDate { get; set; }
         public bool NotifyStartDate { get; set; }
@@ -21,8 +24,10 @@ namespace C971.ViewModels
 
         public List<string> CourseStatuses { get; set; }
 
-        public CourseDetailsViewModel() 
+        public CourseDetailsViewModel(IC971DataStore dataStore) 
         {
+            _dataStore = dataStore;
+
             CourseStatuses = new List<string>
             {
                 "In Progress",
@@ -35,45 +40,7 @@ namespace C971.ViewModels
             CourseName = "This is a test course";
             Notes = string.Empty;
 
-            CourseAssessments = new List<Assessment>
-            {
-                new Assessment
-                {
-                    AssessmentName ="LAP1",
-                    AssessmentType ="Performance Assessment",
-                    StartDate = new DateTime(2023, 1, 1),
-                    EndDate = new DateTime(2023,1,31)
-                },
-                new Assessment
-                {
-                    AssessmentName ="LSP2",
-                    AssessmentType ="Objective Assessment",
-                    StartDate = new DateTime(2023, 2, 1),
-                    EndDate = new DateTime(2023,2,14)
-                },
-            };
-        }
-
-        public CourseDetailsViewModel(Course course)
-        {
-            CourseName = course.CourseName;
-            StartDate = course.StartDate.Value;
-            EndDate = course.EndDate.Value;
-            NotifyStartDate = course.NotifyStartDate;
-            NotifyEndDate = course.NotifyEndDate;
-            CourseStatus = course.CourseStatus;
-            InstructorName = course.InstructorName;
-            InstructorPhone = course.InstructorPhone;
-            Notes = course.Notes;
-
-            CourseStatuses = new List<string>
-            {
-                "In Progress",
-                "Completed",
-                "Plan to take"
-            };
-
-            CourseAssessments = course.Assessments;
+            CourseAssessments = _dataStore.GetAssessments();
         }
 
     }

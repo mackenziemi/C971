@@ -55,8 +55,8 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Vertical">
-                                        <Label Text="{Binding AssessmentName}" />
-                                        <Label Text="Date Range" FontSize="8" />
+                                        <Label Text="{Binding AssessmentName}" FontSize="12" />
+                                        <Label Text="{Binding DateRangeString}" FontSize="8" />
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

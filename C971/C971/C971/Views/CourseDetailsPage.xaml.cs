@@ -1,6 +1,11 @@
 ﻿using C971.Models;
+using C971.Services;
 using C971.ViewModels;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using System.Web;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,17 +17,19 @@ namespace C971.Views
         public CourseDetailsPage()
         {
             InitializeComponent();
-            BindingContext = new CourseDetailsViewModel();
+            var dataStore = DependencyService.Get<IC971DataStore>();
+            BindingContext = new CourseDetailsViewModel(dataStore);
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
             {
-                return;
+                throw new InvalidDataException($"There is no data to use to return");
             }
             var assessment = e.Item as Assessment;
-            Debug.WriteLine($"{assessment.AssessmentName} has been tapped!");
+            //Debug.WriteLine($"{assessment.AssessmentName} has been tapped!");
+            await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
         }
     }
 }

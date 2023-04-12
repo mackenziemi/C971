@@ -8,12 +8,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="Center"
-                Text="Welcome to Xamarin.Forms!!!"
-                TextColor="Purple"
-                VerticalOptions="Center"/>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Term Details" FontSize="Title" HorizontalTextAlignment="Center" Margin="10,20,10,30"/>
+
+                <Label Text="Term Name" FontSize="Small" Margin="10, 0,0,0" />
+                <Entry Placeholder="Spring 2022" Text="{Binding TermName, Mode=TwoWay}"  Margin="0,10,0,20"/>
+
+                <Label Text="Start Date" FontSize="Small" Margin="10, 0,0,0" />
+                <DatePicker Date="{Binding StartDate, Mode=TwoWay}" 
+                        MinimumDate="2022-01-01"
+                        MaximumDate="2032-12-31"
+                        Margin="0,10,0,20"/>
+                <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
+                <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+
+                <Label Text="End Date" FontSize="Small" Margin="10, 0,0,0" />
+                <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
+                        MinimumDate="2022-01-01"
+                        MaximumDate="2032-12-31"
+                        Margin="0,10,0,20"/>
+                <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
+                <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

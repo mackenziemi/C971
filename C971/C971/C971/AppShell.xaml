@@ -84,8 +84,8 @@
     <FlyoutItem Title="Browse" Icon="icon_feed.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Course Details" Icon="icon_feed.png">
-        <ShellContent Route="CourseDetailsPage" ContentTemplate="{DataTemplate local:CourseDetailsPage}" />
+    <FlyoutItem Title="Term Details" Icon="icon_feed.png">
+        <ShellContent Route="TermDetailsPage" ContentTemplate="{DataTemplate local:TermDetailsPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

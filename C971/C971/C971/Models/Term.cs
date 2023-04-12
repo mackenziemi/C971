@@ -16,5 +16,21 @@ namespace C971.Models
 
         public List<Course> Courses { get; set; } = new List<Course>();
 
+        [Ignore]
+        public string DateRangeString
+        {
+            get
+            {
+                if (StartDate != null && EndDate != null)
+                {
+                    return $"{StartDate.Value.ToString("MMM dd, yyyy")} - {EndDate.Value.ToString("MMM dd, yyyy")}";
+                }
+                else
+                {
+                    return "Not Available";
+                }
+            }
+
+        }
     }
 }

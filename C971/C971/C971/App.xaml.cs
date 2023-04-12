@@ -19,6 +19,7 @@ namespace C971
 
         protected override void OnStart ()
         {
+            DependencyService.Register<IC971DataStore, C971DataStore>();    
         }
 
         protected override void OnSleep ()

@@ -20,5 +20,23 @@ namespace C971.Models
         public string Notes { get; set; }
 
         public List<Assessment> Assessments { get; set; } = new List<Assessment>();
+
+
+        [Ignore]
+        public string DateRangeString
+        {
+            get
+            {
+                if (StartDate != null && EndDate != null)
+                {
+                    return $"{StartDate.Value.ToString("MMM dd, yyyy")} - {EndDate.Value.ToString("MMM dd, yyyy")}";
+                }
+                else
+                {
+                    return "Not Available";
+                }
+            }
+        }
+
     }
 }
