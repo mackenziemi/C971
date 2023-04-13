@@ -40,8 +40,36 @@ namespace C971.ViewModels
             CourseName = "This is a test course";
             Notes = string.Empty;
 
-            CourseAssessments = _dataStore.GetAssessments();
+            //CourseAssessments = _dataStore.GetAssessments();
+            CourseAssessments = new List<Assessment>();
         }
+
+        public CourseDetailsViewModel(IC971DataStore dataStore, Course course)
+        {
+            _dataStore = dataStore;
+
+            CourseStatuses = new List<string>
+            {
+                "In Progress",
+                "Completed",
+                "Plan to take"
+            };
+
+            CourseAssessments = new List<Assessment>();
+
+            CourseName = course.CourseName;
+            StartDate = course.StartDate.Value;
+            NotifyStartDate = course.NotifyStartDate;
+            EndDate = course.EndDate.Value;
+            NotifyEndDate = course.NotifyEndDate;
+            CourseStatus = course.CourseStatus;
+            InstructorName = course.InstructorName;
+            InstructorPhone = course.InstructorPhone;
+            InstructorEmail = course.InstructorEmail;
+            Notes = course.Notes;
+
+            CourseAssessments = course.Assessments;
+        }   
 
     }
 }

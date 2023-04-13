@@ -8,6 +8,9 @@ namespace C971.Services
         Assessment GetAssessmentById(int id);
         List<Assessment> GetAssessments();
 
+        Course GetCourseById(int id);
+        List<Course> GetCourses();
+
         Term GetTermById(int id);
         List<Term> GetTerms();
 

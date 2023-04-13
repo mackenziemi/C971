@@ -30,6 +30,38 @@
                         Margin="0,10,0,20"/>
                 <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
                 <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+
+                <StackLayout Orientation="Horizontal" 
+                             HorizontalOptions="FillAndExpand" 
+                             VerticalOptions="CenterAndExpand"
+                             Margin="10">
+                    <Label FontSize="Medium" Text="Courses" Margin="10" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                        <ImageButton Source="plus_icon.png" 
+                                 HorizontalOptions="EndAndExpand"
+                                 WidthRequest="32"
+                                 HeightRequest="32"
+                                 Clicked="AddCourse_Clicked"/>
+                        <ImageButton Source="minus_icon.png" 
+                                 HorizontalOptions="EndAndExpand"
+                                 WidthRequest="32"
+                                 HeightRequest="32"
+                                 Clicked="RemoveCourse_Clicked"/>
+                    </StackLayout>
+                    
+                </StackLayout>
+                <ListView Margin="10,0,10,0" ItemsSource="{Binding Courses}" ItemTapped="ListView_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding CourseName}" FontSize="12" />
+                                    <Label Text="{Binding DateRangeString}" FontSize="8" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

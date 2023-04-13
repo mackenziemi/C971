@@ -6,8 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 namespace C971.Services
 {
     public class C971DataStore : IC971DataStore
-    {
-        private List<Assessment> assessments = new List<Assessment>();
+    { 
         private List<Term> terms = new List<Term>();
 
         public C971DataStore()
@@ -17,12 +16,45 @@ namespace C971.Services
 
         public Assessment GetAssessmentById(int id)
         {
-            return assessments.Find(a => a.AssessmentId == id);
+            return GetAssessments().Find(a => a.AssessmentId == id);
         }
 
         public List<Assessment> GetAssessments()
         {
-            return assessments;
+            var result = new List<Assessment>();
+
+            foreach (var term in terms)
+            {
+                foreach (var course in term.Courses)
+                {
+                    foreach (var assessment in course.Assessments)
+                    {
+                        result.Add(assessment);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public Course GetCourseById(int id)
+        {
+            return GetCourses().Find(a => a.CourseId == id);
+        }
+
+        public List<Course> GetCourses()
+        {
+            var result = new List<Course>();
+
+            foreach (var term in terms)
+            {
+                foreach (var course in term.Courses)
+                {
+                    result.Add(course); 
+                }
+            }
+
+            return result;
         }
 
         public Term GetTermById(int id)
@@ -86,16 +118,16 @@ namespace C971.Services
                 EndDate = new DateTime(2023, 2, 14)
             };
 
-            c971.Assessments.AddRange(new List<Assessment> { lap1, lsp2 });
-            d191.Assessments.AddRange(new List<Assessment>() { lap1, lsp2 });   
+            c971.Assessments.AddRange(new List<Assessment> { lap1 });
+            d191.Assessments.AddRange(new List<Assessment> { lsp2 });   
 
             term.Courses.Add(c971);
             term.Courses.Add(d191);
 
+            //courses.AddRange(new List<Course> { c971, d191 });
+
             terms.Add(term);
-
-
-            assessments.AddRange(new List<Assessment> { lap1, lsp2 });
         }
+
     }
 }
