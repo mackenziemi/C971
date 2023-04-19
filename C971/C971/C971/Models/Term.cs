@@ -32,5 +32,20 @@ namespace C971.Models
             }
 
         }
+
+        public Course AddNewCourse(int courseId)
+        {
+            var newCourse = new Course
+            {
+                CourseId = courseId,
+                TermId = TermId,
+                CourseName = "New Course",
+                StartDate = DateTime.Today.AddDays(1),
+                EndDate = DateTime.Today.AddDays(30),   
+            };
+
+            Courses.Add(newCourse); 
+            return newCourse;
+        }
     }
 }

@@ -46,7 +46,6 @@ namespace C971.Views
                 throw new InvalidDataException($"There is no data to use to return");
             }
             var assessment = e.Item as Assessment;
-            //Debug.WriteLine($"{assessment.AssessmentName} has been tapped!");
             await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
         }
     }

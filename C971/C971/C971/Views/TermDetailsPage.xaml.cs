@@ -1,4 +1,5 @@
-﻿using C971.Models;
+﻿using C971.Commands;
+using C971.Models;
 using C971.Services;
 using C971.ViewModels;
 using System.IO;
@@ -44,7 +45,8 @@ namespace C971.Views
 
         private async void AddCourse_Clicked(object sender, System.EventArgs e)
         {
-            await DisplayAlert("Button Clicked", "Add Course button clicked!!!!","Cancel");
+            var viewModel = BindingContext as TermDetailsViewModel;
+            viewModel.AddNewCourseCommand.Execute(viewModel);
         }
 
         private async void RemoveCourse_Clicked(object sender, System.EventArgs e)
