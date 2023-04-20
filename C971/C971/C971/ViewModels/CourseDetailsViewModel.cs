@@ -9,6 +9,7 @@ namespace C971.ViewModels
     {
         private IC971DataStore _dataStore;
         
+        private int CourseId { get; set; }  
         public string CourseName { get; set; }
         public DateTime StartDate { get; set; }
         public bool NotifyStartDate { get; set; }
@@ -57,6 +58,7 @@ namespace C971.ViewModels
 
             CourseAssessments = new List<Assessment>();
 
+            CourseId = course.CourseId;
             CourseName = course.CourseName;
             StartDate = course.StartDate.Value;
             NotifyStartDate = course.NotifyStartDate;
@@ -69,7 +71,25 @@ namespace C971.ViewModels
             Notes = course.Notes;
 
             CourseAssessments = course.Assessments;
-        }   
+        }  
+        
+        public void SaveCourse()
+        {
+            var course = _dataStore.GetCourseById(CourseId);
+            if(course != null)
+            {
+                course.CourseName = CourseName;
+                course.StartDate = StartDate;
+                course.NotifyStartDate = NotifyStartDate;
+                course.EndDate = EndDate;
+                course.NotifyEndDate = NotifyEndDate;
+                course.CourseStatus = CourseStatus;
+                course.InstructorName = InstructorName;
+                course.InstructorPhone = InstructorPhone;
+                course.InstructorEmail = InstructorEmail;
+                course.Notes = Notes;
+            }
+        }
 
     }
 }

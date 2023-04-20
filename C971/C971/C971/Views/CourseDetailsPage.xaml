@@ -49,8 +49,16 @@
                         HorizontalOptions="Fill"
                         Margin="10" />
 
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="EndAndExpand">
+                        <Button Text="Save" Clicked="SaveButton_Clicked" Margin="20" HorizontalOptions="End" />
+                    </StackLayout>
+                    
                     <Label FontSize="Medium" Text="Assessments" Margin="10" />
-                    <ListView Margin="10,0,10,0" ItemsSource="{Binding CourseAssessments}" ItemTapped="ListView_ItemTapped">
+                    <ListView Margin="10,0,10,0" 
+                              VerticalOptions="FillAndExpand"
+                              ItemsSource="{Binding CourseAssessments}" 
+                              ItemTapped="ListView_ItemTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -62,6 +70,8 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+
+                    
 
                 </StackLayout>
             </ScrollView>

@@ -6,7 +6,8 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:local="clr-namespace:C971.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Appearing="TermDetailsPage_Appearing">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -42,21 +43,26 @@
                                  WidthRequest="32"
                                  HeightRequest="32"
                                  Clicked="AddCourse_Clicked"/>
-                        <ImageButton Source="minus_icon.png" 
-                                 HorizontalOptions="EndAndExpand"
-                                 WidthRequest="32"
-                                 HeightRequest="32"
-                                 Clicked="RemoveCourse_Clicked"/>
                     </StackLayout>
                     
                 </StackLayout>
-                <ListView Margin="10,0,10,0" ItemsSource="{Binding Courses}" ItemTapped="ListView_ItemTapped">
+                <ListView x:Name="ListViewCourses" 
+                          Margin="10,0,10,0" 
+                          ItemsSource="{Binding Courses}" 
+                          ItemTapped="ListView_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding CourseName}" FontSize="12" />
-                                    <Label Text="{Binding DateRangeString}" FontSize="8" />
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="Start">
+                                        <Label Text="{Binding CourseName}" FontSize="12" />
+                                        <Label Text="{Binding DateRangeString}" FontSize="8" />
+                                    </StackLayout>
+                                    <ImageButton Source="minus_icon.png" 
+                                         HorizontalOptions="EndAndExpand"
+                                         WidthRequest="24"
+                                         HeightRequest="24"
+                                         Clicked="RemoveCourse_Clicked"/>       
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

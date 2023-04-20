@@ -2,6 +2,7 @@
 using C971.Services;
 using C971.ViewModels;
 using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -47,6 +48,16 @@ namespace C971.Views
             }
             var assessment = e.Item as Assessment;
             await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
+        }
+
+        private async void SaveButton_Clicked(object sender, System.EventArgs e)
+        {
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            if(viewModel != null)
+            {
+                viewModel.SaveCourse();
+                await Shell.Current.Navigation.PopAsync();
+            }
         }
     }
 }

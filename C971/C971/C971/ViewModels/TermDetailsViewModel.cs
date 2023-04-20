@@ -14,7 +14,7 @@ namespace C971.ViewModels
         private IC971DataStore _dataStore;
 
 
-        private int TermId { get; set; }
+        public int TermId { get; set; }
         public string TermName { get; set; }
         public DateTime StartDate { get; set; }
         public bool NotifyStartDate { get; set; }
@@ -58,13 +58,30 @@ namespace C971.ViewModels
             var term = _dataStore.GetTermById(TermId);
             if(term != null)
             {
-                var newCourseId = _dataStore.GetCourses().Count + 1;
-                var newCourse = term.AddNewCourse(newCourseId);
-                Courses.Add(newCourse);
+                if(term.Courses.Count <6)
+                {
+                    var newCourseId = _dataStore.GetCourses().Count + 1;
+                    var newCourse = term.AddNewCourse(newCourseId);
+                    Courses.Add(newCourse);
 
-                await Shell.Current.GoToAsync($"coursedetails?courseId={newCourse.CourseId}");
+                    await Shell.Current.GoToAsync($"coursedetails?courseId={newCourse.CourseId}");
+                }
+                else
+                {
+                    throw new Exception($"Unable to add more than six courses to a given term.");
+                }
             }
         }   
+
+        public async void RemoveCourse(Course course)
+        {
+            var term = _dataStore.GetTermById(TermId);
+            if(term != null)
+            {
+                term.Courses.Remove(course);
+                Courses.Remove(course);
+            }
+        }
 
     }
 }
