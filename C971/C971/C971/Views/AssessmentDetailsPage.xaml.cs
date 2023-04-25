@@ -24,7 +24,7 @@ namespace C971.Views
             {
                 _assessmentId = value;
                 var assessment = _dataStore.GetAssessmentById(_assessmentId);               
-                BindingContext = new AssessmentDetailsViewModel(assessment);
+                BindingContext = new AssessmentDetailsViewModel(_dataStore, assessment);
             }
         }
 
@@ -34,7 +34,17 @@ namespace C971.Views
             InitializeComponent();
 
             _dataStore = DependencyService.Get<IC971DataStore>();
-            BindingContext = new AssessmentDetailsViewModel();
+            BindingContext = new AssessmentDetailsViewModel(_dataStore);
+        }
+
+        private async void SaveButton_Clicked(object sender, System.EventArgs e)
+        {
+            var viewModel = BindingContext as AssessmentDetailsViewModel;
+            if (viewModel != null)
+            {
+                viewModel.SaveAssessment();
+                await Shell.Current.Navigation.PopAsync();
+            }
         }
     }
 }

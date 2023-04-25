@@ -2,6 +2,7 @@
 using C971.Services;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace C971.ViewModels
 {
@@ -9,7 +10,7 @@ namespace C971.ViewModels
     {
         private IC971DataStore _dataStore;
         
-        private int CourseId { get; set; }  
+        public int CourseId { get; set; }  
         public string CourseName { get; set; }
         public DateTime StartDate { get; set; }
         public bool NotifyStartDate { get; set; }
@@ -21,7 +22,7 @@ namespace C971.ViewModels
         public string InstructorEmail { get; set; }
         public string Notes { get; set; }
 
-        public List<Assessment> CourseAssessments { get; set; }
+        public List<Assessment> Assessments { get; set; }
 
         public List<string> CourseStatuses { get; set; }
 
@@ -36,13 +37,13 @@ namespace C971.ViewModels
                 "Plan to take"
             };
 
-            CourseAssessments = new List<Assessment>();
+            Assessments = new List<Assessment>();
 
             CourseName = "This is a test course";
             Notes = string.Empty;
 
             //CourseAssessments = _dataStore.GetAssessments();
-            CourseAssessments = new List<Assessment>();
+            Assessments = new List<Assessment>();
         }
 
         public CourseDetailsViewModel(IC971DataStore dataStore, Course course)
@@ -56,8 +57,12 @@ namespace C971.ViewModels
                 "Plan to take"
             };
 
-            CourseAssessments = new List<Assessment>();
+            Assessments = new List<Assessment>();
+            BindCourseToViewModel(course);
+        }
 
+        private void BindCourseToViewModel(Course course)
+        {
             CourseId = course.CourseId;
             CourseName = course.CourseName;
             StartDate = course.StartDate.Value;
@@ -70,9 +75,9 @@ namespace C971.ViewModels
             InstructorEmail = course.InstructorEmail;
             Notes = course.Notes;
 
-            CourseAssessments = course.Assessments;
-        }  
-        
+            Assessments = course.Assessments;
+        }
+
         public void SaveCourse()
         {
             var course = _dataStore.GetCourseById(CourseId);
@@ -91,5 +96,41 @@ namespace C971.ViewModels
             }
         }
 
+        public async void AddFixedNewAssessment(string requiredAssessmentType)
+        {
+            var course = _dataStore.GetCourseById(CourseId);
+            if(course != null)
+            {
+                var newAssessmentId = _dataStore.GetAssessments().Count + 1;
+                var assessment = course.AddFixedNewAssessment(newAssessmentId, requiredAssessmentType);
+                //Assessments.Add(assessment);
+
+                await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
+            }   
+        }
+
+        public async void AddNewAssessment()
+        {
+            var course = _dataStore.GetCourseById(CourseId);
+            if (course != null)
+            {
+                var newAssessmentId = _dataStore.GetAssessments().Count + 1;
+                var assessment = course.AddNewAssessment(newAssessmentId);
+                assessment.CourseId = course.CourseId;
+                //Assessments.Add(assessment);
+
+                await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
+            }
+        }
+
+        public void RemoveAssessment(Assessment assessment)
+        {
+            var course = _dataStore.GetCourseById(CourseId);
+            if(course != null)
+            {
+                course.Assessments.Remove(assessment);
+                Assessments.Remove(assessment);
+            }
+        }
     }
 }

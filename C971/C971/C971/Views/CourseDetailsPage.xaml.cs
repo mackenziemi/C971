@@ -59,5 +59,60 @@ namespace C971.Views
                 await Shell.Current.Navigation.PopAsync();
             }
         }
+
+        private async void AddAssessment_Clicked(object sender, EventArgs e)
+        {
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            
+            if(viewModel.Assessments.Count >=2)
+            {
+                await DisplayAlert("Error", "You may not have more than two assessments per course", "Ok"); 
+            }
+            else if(viewModel.Assessments.Count == 1)
+            {
+                var requiredAssessmentType = 
+                        viewModel.Assessments[0].AssessmentType == AssessmentTypeTypes.OBJECTIVE ? 
+                        AssessmentTypeTypes.PERFORMANCE : AssessmentTypeTypes.OBJECTIVE;
+
+                viewModel.AddFixedNewAssessment(requiredAssessmentType);
+                RebindAssessments();
+            }
+            else
+            {
+                viewModel.AddNewAssessment();
+                RebindAssessments();
+            }
+
+        }
+
+        private void RemoveAssessment_Clicked(object sender, EventArgs e)
+        {
+            //Walk the UI Tree to get back to the ViewCell
+            var button = sender as Button;
+            var stackLayout = button.Parent;
+            var viewCell = stackLayout.Parent;
+
+            //Get that data that the ViewCell is bound to
+            var data = viewCell.BindingContext as Assessment;
+
+            //Remove the course from the ViewModel
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            viewModel.RemoveAssessment(data);
+
+            //Update the UI
+            RebindAssessments();
+        }
+
+        private void RebindAssessments()
+        {
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            ListViewAssessments.ItemsSource = null;
+            ListViewAssessments.ItemsSource = viewModel.Assessments;
+        }
+
+        private void CourseDetailsPage_Appearing(object sender, EventArgs e)
+        {
+            RebindAssessments();
+        }
     }
 }

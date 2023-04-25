@@ -6,73 +6,138 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:local="clr-namespace:C971.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Appearing="CourseDetailsPage_Appearing">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <ScrollView>
                 <StackLayout>
                     <Label Text="Course Details" FontSize="Title" HorizontalTextAlignment="Center" Margin="10,20,10,30"/>
 
-                    <Label Text="Course Name" FontSize="Small" Margin="10, 0,0,0" />
-                    <Entry Placeholder="Enter assessment name" Text="{Binding CourseName, Mode=TwoWay}"  Margin="0,10,0,20"/>
+                    <Label Text="Course Name" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Entry Placeholder="Enter assessment name" 
+                           Text="{Binding CourseName, Mode=TwoWay}"  
+                           Margin="0,10,0,20"/>
 
-                    <Label Text="Start Date" FontSize="Small" Margin="10, 0,0,0" />
+                    <Label Text="Start Date" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
                     <DatePicker Date="{Binding StartDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
                         Margin="0,10,0,20"/>
-                    <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
-                    <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+                    <Label Text="Notify on Start Date" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" 
+                            HorizontalOptions="Start" 
+                            Margin="10,10,0,20" />
 
-                    <Label Text="End Date" FontSize="Small" Margin="10, 0,0,0" />
+                    <Label Text="End Date" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
                     <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
                         Margin="0,10,0,20"/>
-                    <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
-                    <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+                    <Label Text="Notify on Start Date" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" 
+                            HorizontalOptions="Start" 
+                            Margin="10,10,0,20" />
 
-                    <Label Text="Course Status" FontSize="Small" Margin="10, 0,0,0" />
-                    <Picker Title="Select a course status" ItemsSource="{Binding CourseStatuses}" SelectedItem="{Binding CourseStatus, Mode=TwoWay}" Margin="0,10,0,20" />
+                    <Label Text="Course Status" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Picker Title="Select a course status" 
+                            ItemsSource="{Binding CourseStatuses}" 
+                            SelectedItem="{Binding CourseStatus, Mode=TwoWay}" 
+                            Margin="0,10,0,20" />
 
-                    <Label Text="Instructor Name" FontSize="Small" Margin="10, 0,0,0" />
-                    <Entry Placeholder="Enter assessment name" Text="{Binding InstructorName, Mode=TwoWay}"  Margin="0,10,0,20"/>
-                    <Label Text="Instructor Phone" FontSize="Small" Margin="10, 0,0,0" />
-                    <Entry Placeholder="Enter instructor's phone number" Text="{Binding InstructorPhone, Mode=TwoWay}"  Margin="0,10,0,20"/>
-                    <Label Text="Instructor Email" FontSize="Small" Margin="10, 0,0,0" />
-                    <Entry Placeholder="Enter instructor's email" Text="{Binding InstructorName, Mode=TwoWay}"  Margin="0,10,0,20"/>
+                    <Label Text="Instructor Name" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Entry Placeholder="Enter assessment name" 
+                           Text="{Binding InstructorName, Mode=TwoWay}"  
+                           Margin="0,10,0,20"/>
+                    <Label Text="Instructor Phone" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Entry Placeholder="Enter instructor's phone number" 
+                           Text="{Binding InstructorPhone, Mode=TwoWay}"  
+                           Margin="0,10,0,20"/>
+                    <Label Text="Instructor Email" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Entry Placeholder="Enter instructor's email" 
+                           Text="{Binding InstructorName, Mode=TwoWay}"  
+                           Margin="0,10,0,20"/>
 
-                    <Label Text="Notes" FontSize="Small" Margin="10, 0,0,0" />
-                    <Editor
-                        Text="{Binding Notes}"
+                    <Label Text="Notes" 
+                           FontSize="Small" 
+                           Margin="10, 0,0,0" />
+                    <Editor Text="{Binding Notes}"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="Fill"
                         Margin="10" />
 
                     <StackLayout Orientation="Horizontal" 
                                  HorizontalOptions="EndAndExpand">
-                        <Button Text="Save" Clicked="SaveButton_Clicked" Margin="20" HorizontalOptions="End" />
+                        <Button Text="Save"
+                                BackgroundColor="Green"
+                                Clicked="SaveButton_Clicked" 
+                                Margin="20" 
+                                HorizontalOptions="End" />
                     </StackLayout>
-                    
-                    <Label FontSize="Medium" Text="Assessments" Margin="10" />
-                    <ListView Margin="10,0,10,0" 
-                              VerticalOptions="FillAndExpand"
-                              ItemsSource="{Binding CourseAssessments}" 
-                              ItemTapped="ListView_ItemTapped">
+
+                    <StackLayout Orientation="Horizontal" 
+                             HorizontalOptions="FillAndExpand" 
+                             VerticalOptions="CenterAndExpand"
+                             Margin="10">
+                        <Label FontSize="Large" 
+                               Text="Assessments"
+                               VerticalOptions="Center"/>
+                        <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="EndAndExpand">
+                            <Button Text="Add Assessment"
+                                FontSize="8"
+                                HorizontalOptions="EndAndExpand" 
+                                Clicked="AddAssessment_Clicked"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <BoxView HeightRequest="1"
+                         Color="Black"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Center"
+                         Margin="5"/>
+                    <ListView x:Name="ListViewAssessments" 
+                            Margin="10,0,10,0" 
+                            VerticalOptions="FillAndExpand"
+                            ItemsSource="{Binding Assessments}" 
+                            ItemTapped="ListView_ItemTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Orientation="Vertical">
-                                        <Label Text="{Binding AssessmentName}" FontSize="12" />
-                                        <Label Text="{Binding DateRangeString}" FontSize="8" />
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding AssessmentName}" 
+                                               FontSize="12" />
+                                            <Label Text="{Binding AssessmentType}" 
+                                               FontSize="8" />
+                                        </StackLayout>
+                                        <Button Text="Remove" FontSize="Micro"
+                                            Margin="5"
+                                            HorizontalOptions="EndAndExpand"
+                                            Clicked="RemoveAssessment_Clicked"/>
                                     </StackLayout>
+
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
-                    
-
                 </StackLayout>
             </ScrollView>
         </StackLayout>

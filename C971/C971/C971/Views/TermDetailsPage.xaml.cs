@@ -1,5 +1,4 @@
-﻿using C971.Commands;
-using C971.Models;
+﻿using C971.Models;
 using C971.Services;
 using C971.ViewModels;
 using System.Collections.ObjectModel;
@@ -52,19 +51,19 @@ namespace C971.Views
                 var term = _dataStore.GetTermById(viewModel.TermId);
                 if(term.Courses.Count < 6)
                 {
-                    viewModel.AddNewCourseCommand.Execute(viewModel);
+                    viewModel.AddNewCourse();
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Unable to have more than six courses for a given term", "Cancel");
+                    await DisplayAlert("Error", "Unable to have more than six courses for a given term", "Ok");
                 }
                 
             }
         }
-        private async void RemoveCourse_Clicked(object sender, System.EventArgs e)
+        private void RemoveCourse_Clicked(object sender, System.EventArgs e)
         {
             //Walk the UI Tree to get back to the ViewCell
-            var button = sender as ImageButton;
+            var button = sender as Button;
             var stackLayout = button.Parent;
             var viewCell = stackLayout.Parent;
 
@@ -78,6 +77,7 @@ namespace C971.Views
             //Update the UI
             RebindCourses();
         }
+
         private void TermDetailsPage_Appearing(object sender, System.EventArgs e)
         {
             RebindCourses();
@@ -86,9 +86,18 @@ namespace C971.Views
         private void RebindCourses()
         {
             var viewModel = BindingContext as TermDetailsViewModel;
-            var term = _dataStore.GetTermById(viewModel.TermId);
             ListViewCourses.ItemsSource = null;
             ListViewCourses.ItemsSource = viewModel.Courses;
+        }
+
+        private async void SaveButton_Clicked(object sender, EventArgs e)
+        {
+            var viewModel = BindingContext as TermDetailsViewModel;
+            if(viewModel != null)
+            {
+                viewModel.SaveTerm();
+                //await Shell.Current.Navigation.PopAsync();
+            }
         }
     }
 }

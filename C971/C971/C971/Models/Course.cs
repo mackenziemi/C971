@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace C971.Models
 {
@@ -37,6 +38,38 @@ namespace C971.Models
                     return "Not Available";
                 }
             }
+        }
+
+        public Assessment AddFixedNewAssessment(int assessmentId, string requiredAssessmentType)
+        {
+            var newAssessment = new Assessment
+            {
+                AssessmentId = assessmentId,
+                CourseId = CourseId,
+                AssessmentName = "New Assessment",
+                AssessmentType = requiredAssessmentType,
+                StartDate = DateTime.Today.AddDays(1),
+                EndDate = DateTime.Today.AddDays(30),
+            };
+
+            Assessments.Add(newAssessment);
+            return newAssessment;
+        }
+
+        public Assessment AddNewAssessment(int assessmentId)
+        {
+            var newAssessment = new Assessment
+            {
+                AssessmentId = assessmentId,
+                CourseId = CourseId,
+                AssessmentName = "New Assessment",
+                AssessmentType = AssessmentTypeTypes.PERFORMANCE,
+                StartDate = DateTime.Today.AddDays(1),
+                EndDate = DateTime.Today.AddDays(30),
+            };
+
+            Assessments.Add(newAssessment);
+            return newAssessment;
         }
 
     }

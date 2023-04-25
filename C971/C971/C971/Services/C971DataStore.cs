@@ -117,8 +117,16 @@ namespace C971.Services
                 StartDate = new DateTime(2023, 2, 1),
                 EndDate = new DateTime(2023, 2, 14)
             };
+            var ldp2 = new Assessment
+            {
+                AssessmentId = 3,
+                AssessmentName = "LDP2",
+                AssessmentType = "Objective Assessment",
+                StartDate = new DateTime(2023, 3, 1),
+                EndDate = new DateTime(2023, 3, 28)
+            };
 
-            c971.Assessments.AddRange(new List<Assessment> { lap1 });
+            c971.Assessments.AddRange(new List<Assessment> { lap1, ldp2 });
             d191.Assessments.AddRange(new List<Assessment> { lsp2 });   
 
             term.Courses.Add(c971);

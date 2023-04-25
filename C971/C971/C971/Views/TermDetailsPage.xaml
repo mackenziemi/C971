@@ -11,41 +11,75 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Label Text="Term Details" FontSize="Title" HorizontalTextAlignment="Center" Margin="10,20,10,30"/>
+                <Label Text="Term Details" 
+                       FontSize="Title" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="10,20,10,30"/>
 
-                <Label Text="Term Name" FontSize="Small" Margin="10, 0,0,0" />
-                <Entry Placeholder="Spring 2022" Text="{Binding TermName, Mode=TwoWay}"  Margin="0,10,0,20"/>
+                <Label Text="Term Name" 
+                       FontSize="Small" 
+                       Margin="10, 0,0,0" />
+                <Entry Placeholder="Spring 2022" 
+                       Text="{Binding TermName, Mode=TwoWay}"  
+                       Margin="0,10,0,20"/>
 
-                <Label Text="Start Date" FontSize="Small" Margin="10, 0,0,0" />
+                <Label Text="Start Date" 
+                       FontSize="Small" 
+                       Margin="10, 0,0,0" />
                 <DatePicker Date="{Binding StartDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
                         Margin="0,10,0,20"/>
-                <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
-                <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+                <Label Text="Notify on Start Date" 
+                       FontSize="Small" 
+                       Margin="10, 0,0,0" />
+                <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" 
+                        HorizontalOptions="Start" 
+                        Margin="10,10,0,20" />
 
-                <Label Text="End Date" FontSize="Small" Margin="10, 0,0,0" />
+                <Label Text="End Date" 
+                       FontSize="Small" 
+                       Margin="10, 0,0,0" />
                 <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
                         Margin="0,10,0,20"/>
-                <Label Text="Notify on Start Date" FontSize="Small" Margin="10, 0,0,0" />
-                <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" HorizontalOptions="Start" Margin="10,10,0,20" />
+                <Label Text="Notify on Start Date" 
+                       FontSize="Small" 
+                       Margin="10, 0,0,0" />
+                <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" 
+                        HorizontalOptions="Start" 
+                        Margin="10,10,0,20" />
+                
+                <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="EndAndExpand">
+                    <Button Text="Save"
+                            BackgroundColor="Green"
+                            Clicked="SaveButton_Clicked" 
+                            Margin="20" 
+                            HorizontalOptions="End" />
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal" 
                              HorizontalOptions="FillAndExpand" 
                              VerticalOptions="CenterAndExpand"
                              Margin="10">
-                    <Label FontSize="Medium" Text="Courses" Margin="10" />
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                        <ImageButton Source="plus_icon.png" 
-                                 HorizontalOptions="EndAndExpand"
-                                 WidthRequest="32"
-                                 HeightRequest="32"
-                                 Clicked="AddCourse_Clicked"/>
+                    <Label FontSize="Large" 
+                           Text="Courses" 
+                           />
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="EndAndExpand">
+                        <Button Text="Add Course"
+                                FontSize="Micro"
+                                HorizontalOptions="EndAndExpand" 
+                                Clicked="AddCourse_Clicked"/>
                     </StackLayout>
-                    
                 </StackLayout>
+                <BoxView HeightRequest="1"
+                         Color="Black"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Center"
+                         Margin="5"/>
                 <ListView x:Name="ListViewCourses" 
                           Margin="10,0,10,0" 
                           ItemsSource="{Binding Courses}" 
@@ -54,15 +88,17 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal">
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="Start">
-                                        <Label Text="{Binding CourseName}" FontSize="12" />
-                                        <Label Text="{Binding DateRangeString}" FontSize="8" />
+                                    <StackLayout Orientation="Vertical" 
+                                                 HorizontalOptions="Start">
+                                        <Label Text="{Binding CourseName}" 
+                                               FontSize="12" />
+                                        <Label Text="{Binding DateRangeString}" 
+                                               FontSize="8" />
                                     </StackLayout>
-                                    <ImageButton Source="minus_icon.png" 
-                                         HorizontalOptions="EndAndExpand"
-                                         WidthRequest="24"
-                                         HeightRequest="24"
-                                         Clicked="RemoveCourse_Clicked"/>       
+                                    <Button Text="Remove" FontSize="Micro"
+                                            Margin="5"
+                                            HorizontalOptions="EndAndExpand"
+                                            Clicked="RemoveCourse_Clicked"/>       
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

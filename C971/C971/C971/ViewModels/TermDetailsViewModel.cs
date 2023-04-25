@@ -1,5 +1,4 @@
-﻿using C971.Commands;
-using C971.Models;
+﻿using C971.Models;
 using C971.Services;
 using System;
 using System.Collections.Generic;
@@ -23,9 +22,6 @@ namespace C971.ViewModels
 
         public ObservableCollection<Course> Courses { get; set; }
 
-
-        public ICommand AddNewCourseCommand { get; private set; }
-
         public TermDetailsViewModel(IC971DataStore dataStore)
         {
             _dataStore = dataStore;
@@ -33,13 +29,11 @@ namespace C971.ViewModels
             var term = _dataStore.GetTermById(1);
 
             BindTermToViewModel(term);
-            AddNewCourseCommand = new AddNewCourseCommand();
         }
 
         public TermDetailsViewModel(Term term)
         {
             BindTermToViewModel(term);
-            AddNewCourseCommand = new AddNewCourseCommand();
         }
 
         private void BindTermToViewModel(Term term)
@@ -66,10 +60,6 @@ namespace C971.ViewModels
 
                     await Shell.Current.GoToAsync($"coursedetails?courseId={newCourse.CourseId}");
                 }
-                else
-                {
-                    throw new Exception($"Unable to add more than six courses to a given term.");
-                }
             }
         }   
 
@@ -80,6 +70,19 @@ namespace C971.ViewModels
             {
                 term.Courses.Remove(course);
                 Courses.Remove(course);
+            }
+        }
+
+        public void SaveTerm()
+        {
+            var term = _dataStore.GetTermById(TermId);
+            if(term != null)
+            {
+                term.TermName = TermName;
+                term.StartDate = StartDate;
+                term.NotifyStartDate = NotifyStartDate;
+                term.EndDate = EndDate; 
+                term.NotifyEndDate = NotifyEndDate;
             }
         }
 
