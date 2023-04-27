@@ -27,12 +27,14 @@ namespace C971.ViewModels
             _dataStore = dataStore;
 
             var term = _dataStore.GetTermById(1);
-
             BindTermToViewModel(term);
         }
 
-        public TermDetailsViewModel(Term term)
+        public TermDetailsViewModel(IC971DataStore dataStore,
+            Term term)
         {
+            _dataStore = dataStore;
+
             BindTermToViewModel(term);
         }
 

@@ -21,7 +21,8 @@ namespace C971
 
             Routing.RegisterRoute("assessmentdetails", typeof(AssessmentDetailsPage));
             Routing.RegisterRoute("coursedetails", typeof(CourseDetailsPage));
-            Routing.RegisterRoute("termDetails", typeof(TermDetailsPage));
+            Routing.RegisterRoute("termdetails", typeof(TermDetailsPage));
+            Routing.RegisterRoute("terms", typeof(TermsPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
@@ -32,13 +33,6 @@ namespace C971
         protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
             base.OnNavigating(args);
-
-            if(args.Current?.Location.OriginalString.StartsWith("assessmentDetails")== true)
-            {
-                Debug.WriteLine($"Got this far...t");
-
-
-            }
         }
 
     }

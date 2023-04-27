@@ -18,7 +18,6 @@ namespace C971.Services
         {
             return GetAssessments().Find(a => a.AssessmentId == id);
         }
-
         public List<Assessment> GetAssessments()
         {
             var result = new List<Assessment>();
@@ -41,7 +40,6 @@ namespace C971.Services
         {
             return GetCourses().Find(a => a.CourseId == id);
         }
-
         public List<Course> GetCourses()
         {
             var result = new List<Course>();
@@ -61,10 +59,18 @@ namespace C971.Services
         {
             return terms.Find(x=>x.TermId == id);
         }
-
         public List<Term> GetTerms()
         {
             return terms;
+        }
+        public void RemoveTerm(Term term)
+        {
+            terms.Remove(term);
+        }
+        public Term AddTerm(Term term)
+        {
+            terms.Add(term);
+            return term;
         }
 
         private void CreateSeedData()
@@ -105,7 +111,7 @@ namespace C971.Services
             {
                 AssessmentId = 1,
                 AssessmentName = "LAP1",
-                AssessmentType = "Performance Assessment",
+                AssessmentType = AssessmentTypeTypes.PERFORMANCE,
                 StartDate = new DateTime(2023, 1, 1),
                 EndDate = new DateTime(2023, 1, 31)
             };
@@ -113,7 +119,7 @@ namespace C971.Services
             {
                 AssessmentId = 2,
                 AssessmentName = "LSP2",
-                AssessmentType = "Objective Assessment",
+                AssessmentType = AssessmentTypeTypes.OBJECTIVE,
                 StartDate = new DateTime(2023, 2, 1),
                 EndDate = new DateTime(2023, 2, 14)
             };
@@ -121,7 +127,7 @@ namespace C971.Services
             {
                 AssessmentId = 3,
                 AssessmentName = "LDP2",
-                AssessmentType = "Objective Assessment",
+                AssessmentType = AssessmentTypeTypes.OBJECTIVE,
                 StartDate = new DateTime(2023, 3, 1),
                 EndDate = new DateTime(2023, 3, 28)
             };

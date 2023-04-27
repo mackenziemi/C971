@@ -11,10 +11,26 @@ using System;
 namespace C971.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    [QueryProperty("TermId", "termId")]
     public partial class TermDetailsPage : ContentPage
     {
         private IC971DataStore _dataStore;
 
+        private int _termId;
+        public int TermId
+        {
+            get
+            {
+                return _termId;
+            }
+            set
+            {
+                _termId = value;
+                var dataStore = DependencyService.Get<IC971DataStore>();
+                var term = dataStore.GetTermById(_termId);
+                BindingContext = new TermDetailsViewModel(dataStore, term);
+            }
+        }
 
         public TermDetailsPage()
         {
@@ -96,7 +112,7 @@ namespace C971.Views
             if(viewModel != null)
             {
                 viewModel.SaveTerm();
-                //await Shell.Current.Navigation.PopAsync();
+                await Shell.Current.Navigation.PopAsync();
             }
         }
     }

@@ -13,6 +13,8 @@ namespace C971.Services
 
         Term GetTermById(int id);
         List<Term> GetTerms();
+        void RemoveTerm(Term term);
+        Term AddTerm(Term term);
 
 
     }

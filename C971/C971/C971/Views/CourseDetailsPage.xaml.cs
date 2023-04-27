@@ -47,7 +47,9 @@ namespace C971.Views
                 throw new InvalidDataException($"There is no data to use to return");
             }
             var assessment = e.Item as Assessment;
-            await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
+            await Shell
+                .Current
+                .GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
         }
 
         private async void SaveButton_Clicked(object sender, System.EventArgs e)
@@ -66,13 +68,17 @@ namespace C971.Views
             
             if(viewModel.Assessments.Count >=2)
             {
-                await DisplayAlert("Error", "You may not have more than two assessments per course", "Ok"); 
+                await DisplayAlert("Error",
+                    "You may not have more than two assessments per course",
+                    "Ok"); 
             }
             else if(viewModel.Assessments.Count == 1)
             {
                 var requiredAssessmentType = 
-                        viewModel.Assessments[0].AssessmentType == AssessmentTypeTypes.OBJECTIVE ? 
-                        AssessmentTypeTypes.PERFORMANCE : AssessmentTypeTypes.OBJECTIVE;
+                        viewModel.Assessments[0].AssessmentType ==
+                        AssessmentTypeTypes.OBJECTIVE ? 
+                        AssessmentTypeTypes.PERFORMANCE :
+                        AssessmentTypeTypes.OBJECTIVE;
 
                 viewModel.AddFixedNewAssessment(requiredAssessmentType);
                 RebindAssessments();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:C971.Views"
@@ -84,8 +84,8 @@
     <FlyoutItem Title="Browse" Icon="icon_feed.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Term Details" Icon="icon_feed.png">
-        <ShellContent Route="TermDetailsPage" ContentTemplate="{DataTemplate local:TermDetailsPage}" />
+    <FlyoutItem Title="Terms" Icon="icon_feed.png">
+        <ShellContent Route="TermsPage" ContentTemplate="{DataTemplate local:TermsPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
