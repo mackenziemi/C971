@@ -2,6 +2,7 @@
 using C971.Models;
 using C971.Services;
 using C971.ViewModels;
+using Plugin.LocalNotifications;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -2,13 +2,16 @@
 using C971.Services;
 using C971.ViewModels;
 using Newtonsoft.Json;
+using Plugin.LocalNotifications;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace C971.Views
 {
@@ -29,6 +32,8 @@ namespace C971.Views
                 var dataStore = DependencyService.Get<IC971DataStore>();
                 var course = dataStore.GetCourseById(_courseId);
                 BindingContext = new CourseDetailsViewModel(dataStore, course);
+
+                CheckCourseNotifications();
             }
         }
 
@@ -119,6 +124,49 @@ namespace C971.Views
         private void CourseDetailsPage_Appearing(object sender, EventArgs e)
         {
             RebindAssessments();
+        }
+
+        private void CheckCourseNotifications()
+        {
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            if (viewModel != null)
+            {
+                if (viewModel.NotifyStartDate && viewModel.StartDate <= DateTime.Now)
+                {
+                    CrossLocalNotifications.Current.Show("Course Start Date",
+                        $"Your course {viewModel.CourseName} has started");
+                }
+                if (viewModel.NotifyEndDate && viewModel.EndDate <= DateTime.Now)
+                {
+                    CrossLocalNotifications.Current.Show("Course End Date",
+                        $"Your course {viewModel.CourseName} has ended");
+                }
+            }
+        }
+
+        private async void ShareButton_Clicked(System.Object sender,
+            System.EventArgs e)
+        {
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            if(viewModel!= null)
+            {
+                await Share.RequestAsync(new ShareTextRequest
+                {
+                    Text = viewModel.Notes,
+                    Title = "Share Text"
+                });
+            }
+            
+        }
+
+        private void NotifyStartDate_OnToggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            CheckCourseNotifications();
+        }
+
+        private void NotifyEndDate_OnToggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            CheckCourseNotifications();
         }
     }
 }

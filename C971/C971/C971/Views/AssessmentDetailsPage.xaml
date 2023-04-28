@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
     x:Class="C971.Views.AssessmentDetailsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -39,7 +39,9 @@
                    FontSize="Small" 
                    Margin="10, 0,0,0" />
             <Switch IsToggled="{Binding NotifyStartDate, Mode=TwoWay}" 
-                    HorizontalOptions="Start" Margin="10,10,0,20" />
+                    HorizontalOptions="Start"
+                    Margin="10,10,0,20"
+                    Toggled="NotifyStartDate_OnToggled" />
             
             <Label Text="End Date" FontSize="Small" 
                    Margin="10, 0,0,0" />
@@ -47,12 +49,13 @@
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
                         Margin="0,10,0,20"/>
-            <Label Text="Notify on Start Date" 
+            <Label Text="Notify on End Date" 
                    FontSize="Small" 
                    Margin="10, 0,0,0" />
             <Switch IsToggled="{Binding NotifyEndDate, Mode=TwoWay}" 
                     HorizontalOptions="Start" 
-                    Margin="10,10,0,20" />
+                    Margin="10,10,0,20"
+                    Toggled="NotifyEndDate_OnToggled"/>
 
             <StackLayout Orientation="Horizontal" 
                                  HorizontalOptions="EndAndExpand">

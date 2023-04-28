@@ -7,6 +7,7 @@ using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System;
+using Plugin.LocalNotifications;
 
 namespace C971.Views
 {
@@ -29,6 +30,8 @@ namespace C971.Views
                 var dataStore = DependencyService.Get<IC971DataStore>();
                 var term = dataStore.GetTermById(_termId);
                 BindingContext = new TermDetailsViewModel(dataStore, term);
+
+                CheckTermNotifications();
             }
         }
 
@@ -106,6 +109,23 @@ namespace C971.Views
             ListViewCourses.ItemsSource = viewModel.Courses;
         }
 
+        private void CheckTermNotifications()
+        {
+            var viewModel = BindingContext as TermDetailsViewModel;
+            if(viewModel != null)
+            {
+                if(viewModel.NotifyStartDate && viewModel.StartDate <= DateTime.Now)
+                {
+                    CrossLocalNotifications.Current.Show("Term Start Date",
+                        $"Your term {viewModel.TermName} has started");
+                }
+                if(viewModel.NotifyEndDate && viewModel.EndDate <= DateTime.Now)
+                {
+                    CrossLocalNotifications.Current.Show("Term End Date",
+                        $"Your term {viewModel.TermName} has ended");
+                }
+            }
+        }
         private async void SaveButton_Clicked(object sender, EventArgs e)
         {
             var viewModel = BindingContext as TermDetailsViewModel;
@@ -114,6 +134,16 @@ namespace C971.Views
                 viewModel.SaveTerm();
                 await Shell.Current.Navigation.PopAsync();
             }
+        }
+
+        private void NotifyStartDate_OnToggle(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            CheckTermNotifications();
+        }
+
+        void NotifyEndDate_OnToggle(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            CheckTermNotifications();
         }
     }
 }

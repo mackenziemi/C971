@@ -1,4 +1,5 @@
-﻿using C971.Models;
+﻿
+using C971.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
@@ -89,8 +90,10 @@ namespace C971.Services
                 CourseId = 1,
                 CourseName = "C971",
                 CourseStatus = "In Progress",
-                StartDate = new DateTime(2023, 1, 1),
-                EndDate = new DateTime(2023, 1, 31),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today.AddDays(30),
+                NotifyStartDate = false,
+                NotifyEndDate = false,
                 InstructorName = "John Smith",
                 InstructorPhone = "555-555-5555",
                 InstructorEmail = "j.smith@byteme.io"
@@ -100,8 +103,10 @@ namespace C971.Services
                 CourseId = 2,
                 CourseName = "D191",
                 CourseStatus = "Plan to take",
-                StartDate = new DateTime(2023, 3, 1),
-                EndDate = new DateTime(2023, 3, 31),
+                StartDate = DateTime.Today.AddDays(31),
+                EndDate = DateTime.Today.AddDays(60),
+                NotifyStartDate = false,
+                NotifyEndDate = false,
                 InstructorName = "John Smith",
                 InstructorPhone = "555-555-5555",
                 InstructorEmail = "j.smith@byteme.io"
@@ -113,7 +118,9 @@ namespace C971.Services
                 AssessmentName = "LAP1",
                 AssessmentType = AssessmentTypeTypes.PERFORMANCE,
                 StartDate = new DateTime(2023, 1, 1),
-                EndDate = new DateTime(2023, 1, 31)
+                EndDate = new DateTime(2023, 1, 31),
+                NotifyStartDate = false,
+                NotifyEndDate = false,
             };
             var lsp2 = new Assessment
             {
@@ -121,7 +128,9 @@ namespace C971.Services
                 AssessmentName = "LSP2",
                 AssessmentType = AssessmentTypeTypes.OBJECTIVE,
                 StartDate = new DateTime(2023, 2, 1),
-                EndDate = new DateTime(2023, 2, 14)
+                EndDate = new DateTime(2023, 2, 14),
+                NotifyStartDate = false,
+                NotifyEndDate = false,
             };
             var ldp2 = new Assessment
             {
@@ -129,7 +138,9 @@ namespace C971.Services
                 AssessmentName = "LDP2",
                 AssessmentType = AssessmentTypeTypes.OBJECTIVE,
                 StartDate = new DateTime(2023, 3, 1),
-                EndDate = new DateTime(2023, 3, 28)
+                EndDate = new DateTime(2023, 3, 28),
+                NotifyStartDate = false,
+                NotifyEndDate = false,
             };
 
             c971.Assessments.AddRange(new List<Assessment> { lap1, ldp2 });
