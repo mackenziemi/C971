@@ -21,6 +21,7 @@ namespace C971.Models
         public string InstructorEmail { get; set; }
         public string Notes { get; set; }
 
+        [Ignore]
         public List<Assessment> Assessments { get; set; } = new List<Assessment>();
 
 
