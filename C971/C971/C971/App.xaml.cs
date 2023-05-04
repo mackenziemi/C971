@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using C971.Services;
 using C971.Views;
 using C971.Data;
+using C971.ViewModels;
 
 namespace C971
 {
@@ -16,6 +17,9 @@ namespace C971
 
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<SeedDatabaseService>();
+            DependencyService.Register<TermRepository>();
+            DependencyService.Register<CourseRepository>();
+            DependencyService.Register<AssessmentRepository>();    
 
             MainPage = new AppShell();
         }

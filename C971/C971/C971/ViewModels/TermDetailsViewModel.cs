@@ -1,4 +1,5 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace C971.ViewModels
 {
     public class TermDetailsViewModel : BaseViewModel
     {
-        private IC971DataStore _dataStore;
+        private TermRepository _termRepository;
+        private CourseRepository _courseRepository;
 
 
         public int TermId { get; set; }
@@ -22,18 +24,20 @@ namespace C971.ViewModels
 
         public ObservableCollection<Course> Courses { get; set; }
 
-        public TermDetailsViewModel(IC971DataStore dataStore)
-        {
-            _dataStore = dataStore;
 
-            var term = _dataStore.GetTermById(1);
-            BindTermToViewModel(term);
+
+        public TermDetailsViewModel()
+        {
+            //BindTermToViewModel(new Term());
         }
 
-        public TermDetailsViewModel(IC971DataStore dataStore,
-            Term term)
+        public TermDetailsViewModel(Term term)
         {
-            _dataStore = dataStore;
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _termRepository = new TermRepository(dbContext);
+            _courseRepository = new CourseRepository(dbContext);
+
+            term.Courses = _courseRepository.GetCoursesForTermId(term.TermId).Result;
 
             BindTermToViewModel(term);
         }
@@ -51,13 +55,13 @@ namespace C971.ViewModels
 
         public async void AddNewCourse()
         {
-            var term = _dataStore.GetTermById(TermId);
-            if(term != null)
+            var term = await _termRepository.GetByIdAsync(TermId);
             {
                 if(term.Courses.Count <6)
                 {
-                    var newCourseId = _dataStore.GetCourses().Count + 1;
-                    var newCourse = term.AddNewCourse(newCourseId);
+                    var newCourse = term.AddNewCourse();
+                    var courseId = await _courseRepository.InsertAsync(newCourse);
+                    newCourse.CourseId = courseId;
                     Courses.Add(newCourse);
 
                     await Shell.Current.GoToAsync($"coursedetails?courseId={newCourse.CourseId}");
@@ -67,17 +71,19 @@ namespace C971.ViewModels
 
         public async void RemoveCourse(Course course)
         {
-            var term = _dataStore.GetTermById(TermId);
+            var term = await _termRepository.GetByIdAsync(TermId);
             if(term != null)
             {
+                await _courseRepository.DeleteAsync(course);
+
                 term.Courses.Remove(course);
                 Courses.Remove(course);
             }
         }
 
-        public void SaveTerm()
+        public async void SaveTerm()
         {
-            var term = _dataStore.GetTermById(TermId);
+            var term = await _termRepository.GetByIdAsync(TermId);
             if(term != null)
             {
                 term.TermName = TermName;
@@ -86,6 +92,7 @@ namespace C971.ViewModels
                 term.EndDate = EndDate; 
                 term.NotifyEndDate = NotifyEndDate;
             }
+            await _termRepository.UpdateAsync(term);
         }
 
     }

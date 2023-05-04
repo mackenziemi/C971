@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System;
 using Plugin.LocalNotifications;
+using C971.Data;
 
 namespace C971.Views
 {
@@ -15,7 +16,7 @@ namespace C971.Views
     [QueryProperty("TermId", "termId")]
     public partial class TermDetailsPage : ContentPage
     {
-        private IC971DataStore _dataStore;
+        private TermRepository _termRepository;
 
         private int _termId;
         public int TermId
@@ -27,9 +28,10 @@ namespace C971.Views
             set
             {
                 _termId = value;
-                var dataStore = DependencyService.Get<IC971DataStore>();
-                var term = dataStore.GetTermById(_termId);
-                BindingContext = new TermDetailsViewModel(dataStore, term);
+                var dbContext = DependencyService.Get<ISqliteDbContext>();
+                var termRepo = new TermRepository(dbContext);   
+                var term = termRepo.GetByIdAsync(_termId).Result;
+                BindingContext = new TermDetailsViewModel(term);
 
                 CheckTermNotifications();
             }
@@ -37,18 +39,11 @@ namespace C971.Views
 
         public TermDetailsPage()
         {
-            _dataStore = DependencyService.Get<IC971DataStore>();
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _termRepository = new TermRepository(dbContext);    
 
             InitializeComponent();
-            var viewModel = new TermDetailsViewModel(_dataStore);
-            BindingContext = viewModel;
-        }
-        public TermDetailsPage(IC971DataStore dataStore)
-        {
-            _dataStore = dataStore;
-
-            InitializeComponent();
-            var viewModel = new TermDetailsViewModel(_dataStore);
+            var viewModel = new TermDetailsViewModel();
             BindingContext = viewModel;
         }
 
@@ -67,7 +62,7 @@ namespace C971.Views
             var viewModel = BindingContext as TermDetailsViewModel;
             if(viewModel != null)
             {
-                var term = _dataStore.GetTermById(viewModel.TermId);
+                var term = await _termRepository.GetByIdAsync(viewModel.TermId);
                 if(term.Courses.Count < 6)
                 {
                     viewModel.AddNewCourse();

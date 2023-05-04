@@ -1,42 +1,49 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace C971.ViewModels
 {
     public class TermsViewModel: BaseViewModel
     {
-        private IC971DataStore _dataStore;
+        private TermRepository _termRepository;
 
         public List<Term> Terms { get; set; }
 
-        public TermsViewModel(IC971DataStore dataStore)
+        public TermsViewModel()
         {
-            _dataStore = dataStore;
+            var context = DependencyService.Get<ISqliteDbContext>();
+            _termRepository = new TermRepository(context);
 
-            Terms = _dataStore.GetTerms();
+            Terms = _termRepository.GetAllAsync().Result;
         }
 
-        public void RemoveTerm(Term term)
+        public async void RemoveTerm(Term term)
         {
-            _dataStore.RemoveTerm(term);
-            Terms.Remove(term);
+            _ = _termRepository.DeleteAsync(term).Result;
+            Terms = _termRepository.GetAllAsync().Result;
         }
 
-        public void AddNewTerm()
+        public async void AddNewTerm()
         {
-            var newTermId = _dataStore.GetTerms().Count + 1;
             var newTerm = new Term
             {
-                TermId = newTermId,
                 TermName = "New Term",
                 StartDate = DateTime.Today.AddDays(1),
                 NotifyStartDate = false,
                 EndDate = DateTime.Today.AddMonths(6),
                 NotifyEndDate = false
             };
-            _dataStore.AddTerm(newTerm);
+            _ = _termRepository.InsertAsync(newTerm).Result;
+            Terms = _termRepository.GetAllAsync().Result;
+        }
+
+        public async void RefreshTerms()
+        {
+            Terms = _termRepository.GetAllAsync().Result;
         }
     }
 }

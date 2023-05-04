@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace C971.Models
         public bool NotifyStartDate { get; set; } = false;
         public bool NotifyEndDate { get; set; } = false;
 
-        [Ignore]
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Course> Courses { get; set; } = new List<Course>();
 
         [Ignore]
@@ -34,11 +35,10 @@ namespace C971.Models
 
         }
 
-        public Course AddNewCourse(int courseId)
+        public Course AddNewCourse()
         {
             var newCourse = new Course
             {
-                CourseId = courseId,
                 TermId = TermId,
                 CourseName = "New Course",
                 StartDate = DateTime.Today.AddDays(1),

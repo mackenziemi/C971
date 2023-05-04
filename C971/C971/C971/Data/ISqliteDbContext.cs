@@ -3,7 +3,7 @@ using SQLite;
 
 namespace C971.Data
 {
-	public interface ISqliteDbContext
+    public interface ISqliteDbContext
 	{
         SQLiteAsyncConnection GetConnection();
     }

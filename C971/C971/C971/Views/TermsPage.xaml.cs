@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using C971.Data;
 using C971.Models;
 using C971.Services;
 using C971.ViewModels;
@@ -11,11 +12,15 @@ namespace C971.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TermsPage : ContentPage
     {
+        private TermRepository _termRepository;
+
         public TermsPage()
         {
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _termRepository = new TermRepository(dbContext);
+
             InitializeComponent();
-            var dataStore = DependencyService.Get<IC971DataStore>();
-            BindingContext = new TermsViewModel(dataStore);
+            BindingContext = new TermsViewModel();
         }
 
         public async void ListView_ItemTapped(System.Object sender,
@@ -64,6 +69,9 @@ namespace C971.Views
 
         private void ContentPage_Appearing(System.Object sender, System.EventArgs e)
         {
+            var viewModel = BindingContext as TermsViewModel;
+            viewModel.RefreshTerms();
+
             RebindTerms();
         }
 
