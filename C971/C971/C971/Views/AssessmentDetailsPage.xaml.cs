@@ -1,4 +1,5 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using C971.ViewModels;
 using Plugin.LocalNotifications;
@@ -13,7 +14,8 @@ namespace C971.Views
     [QueryProperty("AssessmentId", "assessmentId")]
     public partial class AssessmentDetailsPage : ContentPage
     {
-        private IC971DataStore _dataStore;
+        private AssessmentRepository _assessmentRepository;
+        private CourseRepository _courseRepository;
 
         private int _assessmentId;
         public int AssessmentId
@@ -25,8 +27,8 @@ namespace C971.Views
             set
             {
                 _assessmentId = value;
-                var assessment = _dataStore.GetAssessmentById(_assessmentId);               
-                BindingContext = new AssessmentDetailsViewModel(_dataStore, assessment);
+                var assessment = _assessmentRepository.GetByIdAsync(_assessmentId).Result;               
+                BindingContext = new AssessmentDetailsViewModel(assessment);
 
                 CheckAssessmentNotifications();
             }
@@ -37,8 +39,10 @@ namespace C971.Views
         {
             InitializeComponent();
 
-            _dataStore = DependencyService.Get<IC971DataStore>();
-            BindingContext = new AssessmentDetailsViewModel(_dataStore);
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _assessmentRepository = new AssessmentRepository(dbContext);
+            _courseRepository = new CourseRepository(dbContext);    
+            BindingContext = new AssessmentDetailsViewModel();
         }
 
         private async void SaveButton_Clicked(object sender, System.EventArgs e)

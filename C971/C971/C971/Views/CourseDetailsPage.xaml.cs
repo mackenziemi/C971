@@ -1,4 +1,5 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using C971.ViewModels;
 using Newtonsoft.Json;
@@ -19,6 +20,9 @@ namespace C971.Views
     [QueryProperty("CourseId", "courseId")]
     public partial class CourseDetailsPage : ContentPage
     {
+
+        private CourseRepository _courseRepository;
+
         private int _courseId;
         public int CourseId
         {
@@ -29,9 +33,10 @@ namespace C971.Views
             set
             {
                 _courseId = value;
-                var dataStore = DependencyService.Get<IC971DataStore>();
-                var course = dataStore.GetCourseById(_courseId);
-                BindingContext = new CourseDetailsViewModel(dataStore, course);
+                var dbContext = DependencyService.Get<ISqliteDbContext>();
+                _courseRepository = new CourseRepository(dbContext);
+                var course = _courseRepository.GetByIdAsync(_courseId).Result;
+                BindingContext = new CourseDetailsViewModel(course);
 
                 CheckCourseNotifications();
             }
@@ -41,8 +46,7 @@ namespace C971.Views
         public CourseDetailsPage()
         {
             InitializeComponent();
-            var dataStore = DependencyService.Get<IC971DataStore>();
-            BindingContext = new CourseDetailsViewModel(dataStore);
+            BindingContext = new CourseDetailsViewModel();
         }
 
         private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -96,7 +100,7 @@ namespace C971.Views
 
         }
 
-        private void RemoveAssessment_Clicked(object sender, EventArgs e)
+        private async void RemoveAssessment_Clicked(object sender, EventArgs e)
         {
             //Walk the UI Tree to get back to the ViewCell
             var button = sender as Button;
@@ -108,7 +112,7 @@ namespace C971.Views
 
             //Remove the course from the ViewModel
             var viewModel = BindingContext as CourseDetailsViewModel;
-            viewModel.RemoveAssessment(data);
+            await viewModel.RemoveAssessment(data);
 
             //Update the UI
             RebindAssessments();

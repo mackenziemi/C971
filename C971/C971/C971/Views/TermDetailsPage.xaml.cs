@@ -62,8 +62,7 @@ namespace C971.Views
             var viewModel = BindingContext as TermDetailsViewModel;
             if(viewModel != null)
             {
-                var term = await _termRepository.GetByIdAsync(viewModel.TermId);
-                if(term.Courses.Count < 6)
+                if(viewModel.Courses.Count < 6)
                 {
                     viewModel.AddNewCourse();
                 }
@@ -74,7 +73,7 @@ namespace C971.Views
                 
             }
         }
-        private void RemoveCourse_Clicked(object sender, System.EventArgs e)
+        private async void RemoveCourse_Clicked(object sender, System.EventArgs e)
         {
             //Walk the UI Tree to get back to the ViewCell
             var button = sender as Button;
@@ -86,7 +85,7 @@ namespace C971.Views
 
             //Remove the course from the ViewModel
             var viewModel = BindingContext as TermDetailsViewModel;
-            viewModel.RemoveCourse(data);
+            await viewModel.RemoveCourse(data);
 
             //Update the UI
             RebindCourses();

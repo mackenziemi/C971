@@ -1,16 +1,20 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace C971.ViewModels
 {
 
     public class AssessmentDetailsViewModel : BaseViewModel
     {
-        private IC971DataStore _dataStore;
+        private AssessmentRepository _assessmentRepository;
+        private CourseRepository _courseRepository; 
 
         public int AssessmentId { get; set; }
 
@@ -36,23 +40,19 @@ namespace C971.ViewModels
             {
                 try
                 {
-                    if (_dataStore != null)
+                    if (_courseRepository != null)
                     {
                         if (CourseId != null)
                         {
-                            var course = _dataStore.GetCourseById(CourseId.Value);
-                            if (course != null)
+                            var assessments = _assessmentRepository.GetAssessmentsForCourseId(CourseId.Value).Result;
+                            if (assessments.Count > 1)
                             {
-                                if (course.Assessments.Count > 1)
-                                {
-                                    return false;
-                                }
-                                else
-                                {
-                                    return true;
-                                }
+                                return false;
                             }
-                            return true;
+                            else
+                            {
+                                return true;
+                            }
                         }
                         return true;
                     }
@@ -66,28 +66,28 @@ namespace C971.ViewModels
             }
         }
 
-        public AssessmentDetailsViewModel(IC971DataStore dataStore)
+        public AssessmentDetailsViewModel()
         {
-            _dataStore = dataStore;
+            InitializeRepositories();
 
             AssessmentName = string.Empty;
 
             StartDate = DateTime.Today;
-            NotifyStartDate = false;    
+            NotifyStartDate = false;
             EndDate = DateTime.Today.AddDays(7);
             NotifyEndDate = false;
 
             AssessmentTypes = new List<string>
             {
                 AssessmentTypeTypes.PERFORMANCE,
-                AssessmentTypeTypes.OBJECTIVE   
+                AssessmentTypeTypes.OBJECTIVE
             };
             AssessmentType = AssessmentTypes.First();
         }
 
-        public AssessmentDetailsViewModel(IC971DataStore dataStore, Assessment assessment)
+        public AssessmentDetailsViewModel(Assessment assessment)
         {
-            _dataStore = dataStore;
+            InitializeRepositories();
 
             BindAssessmentToViewModel(assessment);
         }
@@ -111,7 +111,7 @@ namespace C971.ViewModels
 
         public void SaveAssessment()
         {
-            var assessment = _dataStore.GetAssessmentById(AssessmentId);
+            var assessment = _assessmentRepository.GetByIdAsync(AssessmentId).Result;
             if(assessment != null)
             {
                 assessment.AssessmentName = AssessmentName;
@@ -119,8 +119,17 @@ namespace C971.ViewModels
                 assessment.StartDate = StartDate;
                 assessment.NotifyStartDate = NotifyStartDate;
                 assessment.EndDate = EndDate;
-                assessment.NotifyEndDate = NotifyEndDate;   
+                assessment.NotifyEndDate = NotifyEndDate; 
+                
+                _assessmentRepository.UpdateAsync(assessment);
             }
+        }
+
+        private void InitializeRepositories()
+        {
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _courseRepository = new CourseRepository(dbContext);
+            _assessmentRepository = new AssessmentRepository(dbContext);
         }
     }
 }

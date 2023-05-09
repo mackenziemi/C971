@@ -31,7 +31,8 @@ namespace C971.Data
 
         public Task<int> InsertAsync(Course entity)
         {
-            return _db.InsertAsync(entity);
+            var result =  _db.InsertAsync(entity);
+            return Task.FromResult(result.Id);
         }
 
         public Task<int> UpdateAsync(Course entity)

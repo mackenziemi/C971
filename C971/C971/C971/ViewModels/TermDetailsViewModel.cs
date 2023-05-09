@@ -4,6 +4,7 @@ using C971.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -56,6 +57,7 @@ namespace C971.ViewModels
         public async void AddNewCourse()
         {
             var term = await _termRepository.GetByIdAsync(TermId);
+            term.Courses = await _courseRepository.GetCoursesForTermId(term.TermId);
             {
                 if(term.Courses.Count <6)
                 {
@@ -69,16 +71,17 @@ namespace C971.ViewModels
             }
         }   
 
-        public async void RemoveCourse(Course course)
+        public async Task<int> RemoveCourse(Course course)
         {
             var term = await _termRepository.GetByIdAsync(TermId);
             if(term != null)
             {
                 await _courseRepository.DeleteAsync(course);
+                term.Courses = await _courseRepository.GetCoursesForTermId(term.TermId);
 
-                term.Courses.Remove(course);
-                Courses.Remove(course);
+                Courses = new ObservableCollection<Course>(term.Courses);
             }
+            return await Task.FromResult(0);
         }
 
         public async void SaveTerm()

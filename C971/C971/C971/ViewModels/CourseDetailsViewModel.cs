@@ -1,14 +1,17 @@
-﻿using C971.Models;
+﻿using C971.Data;
+using C971.Models;
 using C971.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace C971.ViewModels
 {
     public class CourseDetailsViewModel : BaseViewModel
     {
-        private IC971DataStore _dataStore;
+        private CourseRepository _courseRepository;
+        private AssessmentRepository _assessmentRepository;
         
         public int CourseId { get; set; }  
         public string CourseName { get; set; }
@@ -26,15 +29,15 @@ namespace C971.ViewModels
 
         public List<string> CourseStatuses { get; set; }
 
-        public CourseDetailsViewModel(IC971DataStore dataStore) 
+        public CourseDetailsViewModel()
         {
-            _dataStore = dataStore;
+            InitializeRepositories();
 
             CourseStatuses = new List<string>
             {
-                "In Progress",
-                "Completed",
-                "Plan to take"
+                CourseStatusTypes.IN_PROGRESS,
+                CourseStatusTypes.COMPLETED,
+                CourseStatusTypes.PLAN_TO_TAKE
             };
 
             Assessments = new List<Assessment>();
@@ -42,22 +45,23 @@ namespace C971.ViewModels
             CourseName = "This is a test course";
             Notes = string.Empty;
 
-            //CourseAssessments = _dataStore.GetAssessments();
             Assessments = new List<Assessment>();
         }
 
-        public CourseDetailsViewModel(IC971DataStore dataStore, Course course)
+       
+
+        public CourseDetailsViewModel(Course course)
         {
-            _dataStore = dataStore;
+            InitializeRepositories();
 
             CourseStatuses = new List<string>
             {
-                "In Progress",
-                "Completed",
-                "Plan to take"
+               CourseStatusTypes.IN_PROGRESS,
+               CourseStatusTypes.COMPLETED,
+               CourseStatusTypes.PLAN_TO_TAKE
             };
 
-            Assessments = new List<Assessment>();
+            Assessments = _assessmentRepository.GetAssessmentsForCourseId(course.CourseId).Result;
             BindCourseToViewModel(course);
         }
 
@@ -75,12 +79,12 @@ namespace C971.ViewModels
             InstructorEmail = course.InstructorEmail;
             Notes = course.Notes;
 
-            Assessments = course.Assessments;
+            Assessments = _assessmentRepository.GetAssessmentsForCourseId(course.CourseId).Result;
         }
 
-        public void SaveCourse()
+        public async void SaveCourse()
         {
-            var course = _dataStore.GetCourseById(CourseId);
+            var course = _courseRepository.GetByIdAsync(CourseId).Result;
             if(course != null)
             {
                 course.CourseName = CourseName;
@@ -93,17 +97,21 @@ namespace C971.ViewModels
                 course.InstructorPhone = InstructorPhone;
                 course.InstructorEmail = InstructorEmail;
                 course.Notes = Notes;
+
+                await _courseRepository.UpdateAsync(course);
             }
         }
 
         public async void AddFixedNewAssessment(string requiredAssessmentType)
         {
-            var course = _dataStore.GetCourseById(CourseId);
+            var course = await _courseRepository.GetByIdAsync(CourseId);
             if(course != null)
             {
-                var newAssessmentId = _dataStore.GetAssessments().Count + 1;
-                var assessment = course.AddFixedNewAssessment(newAssessmentId, requiredAssessmentType);
-                //Assessments.Add(assessment);
+                var assessment = course.AddFixedNewAssessment(requiredAssessmentType);
+                var newAssessmentId = await _assessmentRepository.InsertAsync(assessment);
+                assessment.AssessmentId = newAssessmentId;
+
+                Assessments = await _assessmentRepository.GetAssessmentsForCourseId(CourseId);
 
                 await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
             }   
@@ -111,26 +119,32 @@ namespace C971.ViewModels
 
         public async void AddNewAssessment()
         {
-            var course = _dataStore.GetCourseById(CourseId);
+            var course = _courseRepository.GetByIdAsync(CourseId).Result;
             if (course != null)
             {
-                var newAssessmentId = _dataStore.GetAssessments().Count + 1;
-                var assessment = course.AddNewAssessment(newAssessmentId);
+                var assessment = course.AddNewAssessment();
                 assessment.CourseId = course.CourseId;
-                //Assessments.Add(assessment);
+                var newAssessmentId = await _assessmentRepository.InsertAsync(assessment);  
+                assessment.AssessmentId = newAssessmentId;
+
+                Assessments = await _assessmentRepository.GetAssessmentsForCourseId(CourseId);
 
                 await Shell.Current.GoToAsync($"assessmentdetails?assessmentId={assessment.AssessmentId}");
             }
         }
 
-        public void RemoveAssessment(Assessment assessment)
+        public async Task<int> RemoveAssessment(Assessment assessment)
         {
-            var course = _dataStore.GetCourseById(CourseId);
-            if(course != null)
-            {
-                course.Assessments.Remove(assessment);
-                Assessments.Remove(assessment);
-            }
+            await _assessmentRepository.DeleteAsync(assessment);
+            Assessments = await _assessmentRepository.GetAssessmentsForCourseId(CourseId);
+            return await Task.FromResult(0);
+        }
+
+        private void InitializeRepositories()
+        {
+            var dbContext = DependencyService.Get<ISqliteDbContext>();
+            _courseRepository = new CourseRepository(dbContext);
+            _assessmentRepository = new AssessmentRepository(dbContext);
         }
     }
 }

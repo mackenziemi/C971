@@ -20,10 +20,6 @@ namespace C971.Services
         {
             try
             {
-                //await _context.GetConnection().DropTableAsync<Term>();
-                //await _context.GetConnection().DropTableAsync<Course>();
-                //await _context.GetConnection().DropTableAsync<Assessment>();
-
                 var isEmpty = await IsDatabaseEmptyAsync();
                 if (isEmpty)
                 {
@@ -35,7 +31,7 @@ namespace C971.Services
 
                     var term = new Term
                     {
-                        TermName = "Spring 20231",
+                        TermName = "Spring 2023",
                         StartDate = DateTime.Now,
                         EndDate = DateTime.Now.AddDays(180)
                     };

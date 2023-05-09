@@ -45,11 +45,10 @@ namespace C971.Models
             }
         }
 
-        public Assessment AddFixedNewAssessment(int assessmentId, string requiredAssessmentType)
+        public Assessment AddFixedNewAssessment(string requiredAssessmentType)
         {
             var newAssessment = new Assessment
             {
-                AssessmentId = assessmentId,
                 CourseId = CourseId,
                 AssessmentName = "New Assessment",
                 AssessmentType = requiredAssessmentType,
@@ -61,11 +60,10 @@ namespace C971.Models
             return newAssessment;
         }
 
-        public Assessment AddNewAssessment(int assessmentId)
+        public Assessment AddNewAssessment()
         {
             var newAssessment = new Assessment
             {
-                AssessmentId = assessmentId,
                 CourseId = CourseId,
                 AssessmentName = "New Assessment",
                 AssessmentType = AssessmentTypeTypes.PERFORMANCE,
