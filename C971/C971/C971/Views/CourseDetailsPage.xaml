@@ -17,9 +17,10 @@
                     <Label Text="Course Name" 
                            FontSize="Small" 
                            Margin="10, 0,0,0" />
-                    <Entry Placeholder="Enter assessment name" 
+                    <Entry Placeholder="Enter course name" 
                            Text="{Binding CourseName, Mode=TwoWay}"  
-                           Margin="0,10,0,20"/>
+                           Margin="0,10,0,20"
+                           TextChanged="CourseName_TextChanged"/>
 
                     <Label Text="Start Date" 
                            FontSize="Small" 
@@ -42,7 +43,8 @@
                     <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
-                        Margin="0,10,0,20"/>
+                        Margin="0,10,0,20"
+                        DateSelected="EndDate_DateSelected"/>
                     <Label Text="Notify on End Date" 
                            FontSize="Small" 
                            Margin="10, 0,0,0" />
@@ -64,19 +66,22 @@
                            Margin="10, 0,0,0" />
                     <Entry Placeholder="Enter instructors name" 
                            Text="{Binding InstructorName, Mode=TwoWay}"  
-                           Margin="0,10,0,20"/>
+                           Margin="0,10,0,20"
+                           TextChanged="InstructorName_TextChanged"/>
                     <Label Text="Instructor Phone" 
                            FontSize="Small" 
                            Margin="10, 0,0,0" />
                     <Entry Placeholder="Enter instructor's phone number" 
                            Text="{Binding InstructorPhone, Mode=TwoWay}"  
-                           Margin="0,10,0,20"/>
+                           Margin="0,10,0,20"
+                           TextChanged="InstructorPhone_TextChanged"/>
                     <Label Text="Instructor Email" 
                            FontSize="Small" 
                            Margin="10, 0,0,0" />
                     <Entry Placeholder="Enter instructor's email" 
-                           Text="{Binding InstructorName, Mode=TwoWay}"  
-                           Margin="0,10,0,20"/>
+                           Text="{Binding InstructorEmail, Mode=TwoWay}"  
+                           Margin="0,10,0,20"
+                           TextChanged="InstructorEmail_TextChanged"/>
 
                     <Label Text="Notes" 
                            FontSize="Small" 

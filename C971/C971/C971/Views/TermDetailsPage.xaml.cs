@@ -139,5 +139,38 @@ namespace C971.Views
         {
             CheckTermNotifications();
         }
+
+        private async void EndDate_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var oldDate = e.OldDate;
+            var newDate = e.NewDate;
+
+            var viewModel = BindingContext as TermDetailsViewModel;
+            if (viewModel != null)
+            {
+                if (newDate < viewModel.StartDate)
+                {
+                    await DisplayAlert("Error", "End date cannot be before Start date", "Ok");
+                    viewModel.EndDate = oldDate;
+                    var datePicker = sender as DatePicker;
+                    datePicker.Date = oldDate;
+                }
+            }
+        }
+
+        private async void TermName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(string.IsNullOrEmpty(e.NewTextValue))
+            {
+                await DisplayAlert("Error", "Term name cannot be empty", "Ok");
+                var viewModel = BindingContext as TermDetailsViewModel;
+                if(viewModel != null)
+                {
+                    viewModel.TermName = e.OldTextValue;
+                }
+                var entry = sender as Entry;
+                entry.Text = e.OldTextValue;
+            }
+        }
     }
 }

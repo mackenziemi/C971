@@ -18,7 +18,8 @@
                    Margin="10, 0,0,0" />
             <Entry Placeholder="Enter assessment name" 
                    Text="{Binding AssessmentName, Mode=TwoWay}"  
-                   Margin="0,10,0,20"/>
+                   Margin="0,10,0,20"
+                   TextChanged="AssessmentName_TextChanged"/>
             <Label Text="Assessment Type" 
                    FontSize="Small" 
                    Margin="10, 0,0,0" />
@@ -34,7 +35,7 @@
             <DatePicker Date="{Binding StartDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
-                        Margin="0,10,0,20"/>
+                        Margin="0,10,0,20" />
             <Label Text="Notify on Start Date" 
                    FontSize="Small" 
                    Margin="10, 0,0,0" />
@@ -48,7 +49,8 @@
             <DatePicker Date="{Binding EndDate, Mode=TwoWay}" 
                         MinimumDate="2022-01-01"
                         MaximumDate="2032-12-31"
-                        Margin="0,10,0,20"/>
+                        Margin="0,10,0,20"
+                        DateSelected="EndDate_DateSelected"/>
             <Label Text="Notify on End Date" 
                    FontSize="Small" 
                    Margin="10, 0,0,0" />

@@ -172,5 +172,83 @@ namespace C971.Views
         {
             CheckCourseNotifications();
         }
+
+        private async void EndDate_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var oldDate = e.OldDate;
+            var newDate = e.NewDate;
+
+            var viewModel = BindingContext as CourseDetailsViewModel;
+            if (viewModel != null)
+            {
+                if (newDate < viewModel.StartDate)
+                {
+                    await DisplayAlert("Error", "End date cannot be before Start date", "Ok");
+                    viewModel.EndDate = oldDate;
+                    var datePicker = sender as DatePicker;
+                    datePicker.Date = oldDate;
+                }
+            }
+        }
+
+        private async void CourseName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                await DisplayAlert("Error", "Course name cannot be empty", "Ok");
+                var viewModel = BindingContext as CourseDetailsViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.CourseName = e.OldTextValue;
+                }
+                var entry = sender as Entry;
+                entry.Text = e.OldTextValue;
+            }
+        }
+
+        private async void InstructorName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                await DisplayAlert("Error", "Instructor name cannot be empty", "Ok");
+                var viewModel = BindingContext as CourseDetailsViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.InstructorName = e.OldTextValue;
+                }
+                var entry = sender as Entry;
+                entry.Text = e.OldTextValue;
+            }
+        }
+
+        private async void InstructorPhone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                await DisplayAlert("Error", "Instructor phone number cannot be empty", "Ok");
+                var viewModel = BindingContext as CourseDetailsViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.InstructorPhone = e.OldTextValue;
+                }
+                var entry = sender as Entry;
+                entry.Text = e.OldTextValue;
+            }
+        }
+
+        private async void InstructorEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                await DisplayAlert("Error", "Instructor email cannot be empty", "Ok");
+                var viewModel = BindingContext as CourseDetailsViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.InstructorEmail = e.OldTextValue;
+                }
+                var entry = sender as Entry;
+                entry.Text = e.OldTextValue;
+            }
+        }
     }
 }
