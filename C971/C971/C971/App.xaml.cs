@@ -15,19 +15,17 @@ namespace C971
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             DependencyService.Register<SeedDatabaseService>();
             DependencyService.Register<TermRepository>();
             DependencyService.Register<CourseRepository>();
             DependencyService.Register<AssessmentRepository>();    
 
             MainPage = new AppShell();
+            Shell.Current.GoToAsync("terms");
         }
 
         protected async override void OnStart ()
         {
-            DependencyService.Register<IC971DataStore, C971DataStore>();
-
             var seedService = DependencyService.Get<ISeedDatabase>();
             if (seedService != null)
             {
