@@ -1,10 +1,6 @@
 ﻿using C971.Enums;
 using SQLite;
-using SQLiteNetExtensions.Attributes;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using ForeignKeyAttribute = SQLiteNetExtensions.Attributes.ForeignKeyAttribute;
 
 namespace C971.Models
 {
@@ -12,7 +8,6 @@ namespace C971.Models
     {
         [PrimaryKey, AutoIncrement]
         public int AssessmentId { get; set; }
-        [ForeignKey(typeof(Course))]
         public int CourseId { get; set; }
         public string AssessmentName { get; set; }
         public string AssessmentType { get; set; }  

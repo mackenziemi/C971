@@ -2,7 +2,6 @@
 using C971.Models;
 using C971.Services;
 using C971.ViewModels;
-using Newtonsoft.Json;
 using Plugin.LocalNotifications;
 using System;
 using System.Diagnostics;

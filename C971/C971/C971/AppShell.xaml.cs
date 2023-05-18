@@ -5,7 +5,6 @@ using System.Web;
 using C971.Models;
 using C971.ViewModels;
 using C971.Views;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace C971

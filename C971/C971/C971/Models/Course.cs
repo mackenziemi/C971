@@ -1,10 +1,7 @@
 ﻿using SQLite;
-using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
-using ForeignKeyAttribute = SQLiteNetExtensions.Attributes.ForeignKeyAttribute;
 
 namespace C971.Models
 {
@@ -12,7 +9,6 @@ namespace C971.Models
     {
         [PrimaryKey, AutoIncrement]
         public int CourseId { get; set; }
-        [ForeignKey(typeof(Term))]
         public int TermId { get; set; }
         public string CourseName { get; set; }
         public DateTime? StartDate { get; set; }
@@ -25,7 +21,7 @@ namespace C971.Models
         public string InstructorEmail { get; set; }
         public string Notes { get; set; }
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        [Ignore]
         public List<Assessment> Assessments { get; set; } = new List<Assessment>();
 
 

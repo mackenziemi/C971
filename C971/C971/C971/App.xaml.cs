@@ -21,7 +21,6 @@ namespace C971
             DependencyService.Register<AssessmentRepository>();    
 
             MainPage = new AppShell();
-            Shell.Current.GoToAsync("terms");
         }
 
         protected async override void OnStart ()
